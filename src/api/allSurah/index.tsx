@@ -1,4 +1,3 @@
-// hooks/useSurah.ts
 import { useQuery } from "@tanstack/react-query";
 import axiosInstance from "../axios";
 
@@ -13,6 +12,43 @@ export interface Surah {
   audioFull: Record<string, string>;
 }
 
+export interface Ayat {
+  id?: string;
+  audio: { [key: string]: string };
+  nomorAyat?: number;
+  teksArab: string;
+  teksIndonesia: string;
+  teksLatin: string;
+}
+
+export interface DetailSurah {
+  arti: string;
+  audioFull: Record<string, string>;
+  ayat: Ayat[];
+  deskripsi: string;
+  jumlahAyat: number;
+  nama: string;
+  namaLatin: string;
+  nomor: number;
+  suratSebelumnya:
+    | boolean
+    | {
+        jumlahAyat: number;
+        nama: string;
+        namaLatin: string;
+        nomor: number;
+      };
+  suratSelanjutnya:
+    | boolean
+    | {
+        jumlahAyat: number;
+        nama: string;
+        namaLatin: string;
+        nomor: number;
+      };
+  tempatTurun: string;
+}
+
 export const useGetSurah = () => {
   return useQuery<Surah[]>({
     queryKey: ["surah"],
@@ -24,8 +60,8 @@ export const useGetSurah = () => {
 };
 
 export const useGetDetailSurahByNomor = (nomor: number) => {
-  return useQuery<Surah>({
-    queryKey: ["surah", nomor],
+  return useQuery<DetailSurah>({
+    queryKey: ["detail-surah", nomor],
     queryFn: async () => {
       const { data } = await axiosInstance.get(`/api/v2/surat/${nomor}`);
       return data.data;
