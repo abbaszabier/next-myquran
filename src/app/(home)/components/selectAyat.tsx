@@ -18,33 +18,21 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Ayat } from "@/api/allSurah";
 
-const frameworks = [
-  {
-    value: "next.js",
-    label: "Next.js",
-  },
-  {
-    value: "sveltekit",
-    label: "SvelteKit",
-  },
-  {
-    value: "nuxt.js",
-    label: "Nuxt.js",
-  },
-  {
-    value: "remix",
-    label: "Remix",
-  },
-  {
-    value: "astro",
-    label: "Astro",
-  },
-];
+interface SelectAyatProps {
+  data: Ayat[] | undefined;
+  onSelectAyat?: (ayatNumber: string) => void;
+}
 
-export function SelectAyat() {
+export function SelectAyat({ onSelectAyat, data }: SelectAyatProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
+
+  const verses = data?.map((verse) => ({
+    value: verse.nomorAyat?.toString() || "",
+    label: verse.nomorAyat?.toString() || "",
+  }));
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -56,31 +44,36 @@ export function SelectAyat() {
           className="w-full justify-between"
         >
           {value
-            ? frameworks.find((framework) => framework.value === value)?.label
+            ? verses?.find((verse) => verse.value === value)?.label ??
+              "Select ayat"
             : "Select ayat"}
           <ChevronsUpDown className="opacity-50 w-full" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-full p-0">
         <Command className="w-full">
-          <CommandInput placeholder="Search framework..." />
+          <CommandInput placeholder="Search ayat..." />
           <CommandList className="w-full">
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>No ayat found.</CommandEmpty>
             <CommandGroup className="w-full">
-              {frameworks.map((framework) => (
+              {verses?.map((verse) => (
                 <CommandItem
-                  key={framework.value}
-                  value={framework.value}
+                  key={verse.value}
+                  value={verse.value}
                   onSelect={(currentValue) => {
+                    console.log(currentValue);
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
+                    if (onSelectAyat) {
+                      onSelectAyat(`ayat-${currentValue}`);
+                    }
                   }}
                 >
-                  {framework.label}
+                  {verse.label}
                   <Check
                     className={cn(
                       "ml-auto",
-                      value === framework.value
+                      value === verse.value
                         ? "w-full opacity-100"
                         : "w-full opacity-0"
                     )}

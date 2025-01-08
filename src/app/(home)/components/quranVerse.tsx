@@ -1,38 +1,29 @@
-import { Book, Play, Save } from "lucide-react";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
+import { Play, Save } from "lucide-react";
+import { Ayat } from "@/api/allSurah";
 
-interface QuranVerseCardProps {
-  arabic: string;
-  latin: string;
-  translation: string;
-  tafsir: string;
-  audioUrl: string;
-}
-
-const QuranVerseCard: React.FC<QuranVerseCardProps> = ({
-  arabic,
-  latin,
-  translation,
-  tafsir,
-  audioUrl,
+const QuranVerseCard: React.FC<Ayat> = ({
+  teksArab,
+  teksLatin,
+  teksIndonesia,
+  audio,
+  id,
 }) => {
   const [isSaved, setIsSaved] = useState(false);
-  const [showTafsir, setShowTafsir] = useState(false);
-
-  const toggleSave = () => setIsSaved(!isSaved);
-  const toggleTafsir = () => setShowTafsir(!showTafsir);
+  const toggleSave = () => setIsSaved((prev) => !prev);
 
   const playAudio = () => {
-    const audio = new Audio(audioUrl);
-    audio.play();
+    const audioPlayer = new Audio(audio["01"]);
+    audioPlayer.play();
   };
 
   return (
-    <div className="p-6 bg-white shadow rounded-xl border">
-      <div className="text-right text-3xl font-arabic mb-4">{arabic}</div>
-      <div className="text-gray-500 mb-2">{latin}</div>
-      <div className="text-gray-800 mb-4">{translation}</div>
+    <div className="p-6 bg-white shadow rounded-xl border" id={id}>
+      <div className="text-right text-3xl font-arabic mb-4 space-x-4">
+        {teksArab}
+      </div>
+      <div className="text-gray-500 mb-2">{teksLatin}</div>
+      <div className="text-gray-800 mb-4">{teksIndonesia}</div>
 
       <div className="flex items-center justify-start space-x-2">
         <button
@@ -50,21 +41,7 @@ const QuranVerseCard: React.FC<QuranVerseCardProps> = ({
         >
           <Save className="mr-2" /> {isSaved ? "Saved" : "Save"}
         </button>
-
-        <button
-          onClick={toggleTafsir}
-          className="flex items-center px-4 py-2 bg-gray-200 text-gray-800 rounded hover:bg-gray-300 transition"
-        >
-          <Book className="mr-2" /> Tafsir
-        </button>
       </div>
-
-      {showTafsir && (
-        <div className="mt-4 p-4 bg-gray-100 rounded">
-          <h3 className="text-lg font-semibold mb-2">Tafsir Ayat</h3>
-          <p>{tafsir}</p>
-        </div>
-      )}
     </div>
   );
 };
