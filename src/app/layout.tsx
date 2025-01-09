@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "My Quran",
+  title: "QuranKu",
   description: "A simple Quran app built with Next JS",
 };
 
