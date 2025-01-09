@@ -13,7 +13,7 @@ export interface Surah {
 }
 
 export interface Ayat {
-  id?: string;
+  id: string;
   audio: { [key: string]: string };
   nomorAyat?: number;
   teksArab: string;
