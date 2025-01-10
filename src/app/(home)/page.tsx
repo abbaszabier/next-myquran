@@ -36,7 +36,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <div className="flex justify-between items-center bg-white w-full p-4">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-6">
           <h1 className="text-2xl font-bold">QuranKu</h1>
 
           <nav className="flex space-x-4">
@@ -62,15 +62,19 @@ export default function Home() {
           activeCard={activeCard}
           isLoading={isLoading}
         />
-        <DetailSurahQuran data={detailSurah} isLoading={detailSurahLoading} />
+        <DetailSurahQuran
+          setActiveCard={setActiveCard}
+          data={detailSurah}
+          isLoading={detailSurahLoading}
+        />
       </div>
 
       <CommandDialog open={open} onOpenChange={setOpen}>
         <DialogTitle className="hidden"></DialogTitle>
-        <CommandInput placeholder="Type a surah..." />
+        <CommandInput placeholder="Cari surah..." />
         <CommandList>
-          <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="List of surah">
+          <CommandEmpty>Surah tidak ditemukan</CommandEmpty>
+          <CommandGroup heading="Daftar Surah">
             {data?.map((surah) => (
               <CommandItem
                 key={surah.nomor}
