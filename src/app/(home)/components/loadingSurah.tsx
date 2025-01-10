@@ -12,6 +12,9 @@ export default function LoadingListSurah() {
         <Skeleton className="w-full h-[80px] rounded-lg" />
         <Skeleton className="w-full h-[80px] rounded-lg" />
         <Skeleton className="w-full h-[80px] rounded-lg" />
+        <Skeleton className="w-full h-[80px] rounded-lg" />
+        <Skeleton className="w-full h-[80px] rounded-lg" />
+        <Skeleton className="w-full h-[80px] rounded-lg" />
       </div>
     </div>
   );
