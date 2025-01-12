@@ -61,7 +61,6 @@ export function SelectAyat({ onSelectAyat, data }: SelectAyatProps) {
                   key={verse.value}
                   value={verse.value}
                   onSelect={(currentValue) => {
-                    console.log(currentValue);
                     setValue(currentValue === value ? "" : currentValue);
                     setOpen(false);
                     if (onSelectAyat) {
