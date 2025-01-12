@@ -14,6 +14,7 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import Link from "next/link";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -40,12 +41,12 @@ export default function Home() {
           <h1 className="text-2xl font-bold">QuranKu</h1>
 
           <nav className="flex space-x-4">
-            <a href="#quran" className="text-md text-black">
+            <Link href="/" className="text-md text-black">
               Quran
-            </a>
-            <a href="#jadwal-shalat" className="text-md">
+            </Link>
+            <Link href="/jadwal-shalat" className="text-md text-black">
               Shalat
-            </a>
+            </Link>
             <a href="#jadwal-shalat" className="text-md">
               Tersimpan
             </a>
@@ -79,7 +80,6 @@ export default function Home() {
               <CommandItem
                 key={surah.nomor}
                 onSelect={() => {
-                  console.log(`Surah selected: ${surah.nomor}`);
                   setActiveCard(surah.nomor);
                   setOpen(false);
                 }}
