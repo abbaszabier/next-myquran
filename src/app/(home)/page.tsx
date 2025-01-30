@@ -1,6 +1,4 @@
 "use client";
-
-import { Settings } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useGetSurah, useGetDetailSurahByNomor } from "@/api/allSurah";
 import ListSurah from "./components/listSurah";
@@ -14,7 +12,6 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { DialogTitle } from "@radix-ui/react-dialog";
-import Link from "next/link";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -36,32 +33,13 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="flex justify-between items-center bg-white w-full p-4">
-        <div className="flex items-center space-x-6">
-          <h1 className="text-2xl font-bold">QuranKu</h1>
-
-          <nav className="flex space-x-4">
-            <Link href="/" className="text-md text-black">
-              Quran
-            </Link>
-            <Link href="/jadwal-shalat" className="text-md text-black">
-              Shalat
-            </Link>
-            <a href="#jadwal-shalat" className="text-md">
-              Tersimpan
-            </a>
-          </nav>
-        </div>
-
-        <Settings size={24} />
-      </div>
-
-      <div className="grid grid-cols-[22%_78%] flex-grow">
+      <div className="grid grid-cols-1 lg:grid-cols-[22%_78%] flex-grow">
         <ListSurah
           data={data}
           setActiveCard={setActiveCard}
           activeCard={activeCard}
           isLoading={isLoading}
+          className="hidden lg:block"
         />
         <DetailSurahQuran
           setActiveCard={setActiveCard}
