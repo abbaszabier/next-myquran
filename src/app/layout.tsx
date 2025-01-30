@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import QueryClientProviderWrapper from "@/api/queryProvider";
 import "./globals.css";
+import Navbot from "@/components/navbot";
+import Navtop from "@/components/navtop";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,7 +30,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <QueryClientProviderWrapper>{children}</QueryClientProviderWrapper>
+        <QueryClientProviderWrapper>
+          <Navtop />
+          {children}
+          <Navbot />
+        </QueryClientProviderWrapper>
       </body>
     </html>
   );
