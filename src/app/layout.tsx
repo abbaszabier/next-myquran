@@ -18,6 +18,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "QuranKu",
   description: "A simple Quran app built with Next JS",
+  icons: "/logo-quranku.svg",
 };
 
 export default function RootLayout({
