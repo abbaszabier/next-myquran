@@ -7,7 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { BookOpen } from "lucide-react";
+import { BookOpenText } from "lucide-react";
 
 interface DialogTafsirProps {
   surah: string;
@@ -33,7 +33,7 @@ export default function DialogTafsir({
           title="Tafsir"
           className={` flex items-center px-2 py-2 rounded-md border border-neutral-300 bg-neutral-100 text-neutral-500 text-sm hover:-translate-y-1 transition duration-200 hover:shadow-md`}
         >
-          <BookOpen size={16} />
+          <BookOpenText size={16} />
         </button>
       </DialogTrigger>
       <DialogContent className="w-80 md:w-96">
