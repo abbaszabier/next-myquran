@@ -23,6 +23,31 @@ export const metadata: Metadata = {
   description: "A simple Quran app built with Next JS",
   icons: "/logo-quranku.svg",
   manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "QuranKu",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    siteName: "QuranKu",
+    title: {
+      default: "QuranKu",
+      template: "%s | QuranKu",
+    },
+    description: "A simple Quran app built with Next JS",
+  },
+  twitter: {
+    card: "summary",
+    title: {
+      default: "QuranKu",
+      template: "%s | QuranKu",
+    },
+    description: "A simple Quran app built with Next JS",
+  },
 };
 
 export const viewport: Viewport = {
