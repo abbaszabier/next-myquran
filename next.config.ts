@@ -5,7 +5,6 @@ const withPWAConfig = withPWA({
   register: true,
   cacheOnFrontEndNav: true,
   sw: "service-worker.js",
-  reloadOnOnline: true,
   workboxOptions: {
     skipWaiting: true,
     clientsClaim: true,
@@ -16,7 +15,7 @@ const withPWAConfig = withPWA({
         options: {
           cacheName: "offlineCache",
           expiration: {
-            maxEntries: 200,
+            maxEntries: 20000,
           },
         },
       },
