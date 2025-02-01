@@ -9,12 +9,15 @@ import {
 } from "@/components/ui/card";
 import { Surah } from "@/api/allSurah";
 import LoadingListSurah from "./loadingSurah";
+import { Input } from "@/components/ui/input";
+import { toArabicNumber } from "@/lib/utils";
 
 interface ListSurahProps {
   data?: Surah[];
   isLoading: boolean;
   setActiveCard: (value: number) => void;
   activeCard: number;
+  className?: string;
 }
 
 const ListSurah: React.FC<ListSurahProps> = ({
@@ -22,6 +25,7 @@ const ListSurah: React.FC<ListSurahProps> = ({
   isLoading,
   setActiveCard,
   activeCard,
+  className,
 }) => {
   const [isMac, setIsMac] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
@@ -43,15 +47,16 @@ const ListSurah: React.FC<ListSurahProps> = ({
   if (isLoading) return <LoadingListSurah />;
 
   return (
-    <div className="bg-white sticky top-0 pb-4 space-y-4 overflow-y-auto max-h-[calc(100vh)] border border-r-0">
-      <div className="flex items-center justify-center sticky top-0 z-100 justify-between items-center h-[80px] px-4 bg-white border-b border-gray-200 backdrop-blur-sm bg-opacity-80 backdrop-filter backdrop-saturate-150">
-        <div className="bg-gray-50 p-2 px-3 rounded-lg flex items-center justify-center w-full gap-2 border border-gray-200">
-          <input
-            type="text"
+    <div
+      className={`bg-background sticky top-0 pb-4 space-y-4 overflow-y-auto max-h-[calc(100vh)] border border-l-0 border-r-0 border-gray-200 dark:border-gray-800 border-t-0 ${className}`}
+    >
+      <div className="flex items-center justify-center sticky top-0 z-100 justify-between items-center h-[80px] px-4 bg-background border-b border-gray-200 dark:border-gray-800 backdrop-blur-sm bg-opacity-80 backdrop-filter backdrop-saturate-150">
+        <div className="bg-gray-50 dark:bg-background px-3 rounded-lg flex items-center justify-center w-full border border-gray-200 dark:border-gray-800">
+          <Input
             placeholder="Cari Surah..."
-            className="flex-grow bg-transparent outline-none"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            className="bg-transparent border-none shadow-none dark:bg-background dark:text-white"
           />
           <kbd className="pointer-events-none inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100">
             {isMac ? (
@@ -59,9 +64,9 @@ const ListSurah: React.FC<ListSurahProps> = ({
                 <span className="text-xs">⌘</span>K
               </>
             ) : (
-              <>
+              <div className={`${!isMac && "hidden"}`}>
                 <span className="text-xs">CTRL</span>K
-              </>
+              </div>
             )}
           </kbd>
         </div>
@@ -72,8 +77,8 @@ const ListSurah: React.FC<ListSurahProps> = ({
             key={index}
             className={`m-4 cursor-pointer ${
               activeCard === surah.nomor
-                ? "bg-foreground"
-                : "bg-white hover:bg-gray-100"
+                ? "bg-foreground text-white"
+                : "bg-background hover:bg-gray-100 dark:hover:bg-gray-800"
             }`}
             onClick={() => handleCardClick(surah.nomor)}
           >
@@ -82,11 +87,11 @@ const ListSurah: React.FC<ListSurahProps> = ({
                 className={`${
                   activeCard === surah.nomor
                     ? "bg-background text-foreground"
-                    : "bg-foreground text-white"
+                    : "bg-foreground text-background"
                 } h-[32px] rounded-full w-[32px] flex justify-center items-center text-sm p-1`}
               >
                 <div className="w-full h-full flex justify-center items-center">
-                  {surah.nomor}
+                  {toArabicNumber(surah.nomor)}
                 </div>
               </div>
 
@@ -94,7 +99,7 @@ const ListSurah: React.FC<ListSurahProps> = ({
                 <CardTitle
                   className={`${
                     activeCard === surah.nomor
-                      ? "text-white"
+                      ? "text-background"
                       : "text-foreground"
                   } text-sm`}
                 >
@@ -103,8 +108,8 @@ const ListSurah: React.FC<ListSurahProps> = ({
                 <CardDescription
                   className={`${
                     activeCard === surah.nomor
-                      ? "text-gray-400"
-                      : "text-gray-500"
+                      ? "text-gray-400 dark:text-gray-500"
+                      : "text-gray-500 dark:text-gray-400"
                   }`}
                 >
                   {surah.arti} ⊙ {surah.jumlahAyat} Ayat

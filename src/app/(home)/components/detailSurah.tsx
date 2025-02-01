@@ -13,21 +13,28 @@ import { useSettingsStore } from "@/store/settings";
 import { useRef, useState } from "react";
 import { SelectAyat } from "./selectAyat";
 import DropdownDetailQuran from "./dropdownDetailQuran";
+import FloatingButton from "@/components/ui/floating-button";
+import { usePathname } from "next/navigation";
 
 interface DetailSurahProps {
   data?: DetailSurah;
   isLoading: boolean;
   setActiveCard: (value: number) => void;
+  activeCard?: number;
 }
 
 const DetailSurahQuran: React.FC<DetailSurahProps> = ({
   data,
   isLoading,
   setActiveCard,
+  activeCard,
 }) => {
   const { qori, setQori } = useSettingsStore((state) => state);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioPlayer = useRef<HTMLAudioElement | null>(null);
+  const router = usePathname();
+
+  console.log(data);
 
   const onChaneQori = (item: string) => {
     setQori(item);
@@ -130,8 +137,13 @@ const DetailSurahQuran: React.FC<DetailSurahProps> = ({
   if (isLoading) return <LoadingDetailSurah />;
 
   return (
-    <div className="md:border-l border-b border-gray-200 dark:border-gray-800 space-y-4">
-      <div className="flex sticky top-0 z-100 justify-between items-center h-[60px] md:h-[80px] px-4 bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800 backdrop-blur-sm bg-opacity-80 backdrop-filter backdrop-saturate-150 dark:backdrop-blur-md dark:bg-opacity-60">
+    <div className="md:border-l border-b border-gray-200 dark:border-gray-800">
+      <FloatingButton
+        activeCard={activeCard}
+        setActiveCard={setActiveCard}
+        router={router}
+      />
+      <div className="flex sticky top-0 z-100000 justify-between items-center h-[60px] md:h-[80px] px-4 bg-white dark:bg-black border-b border-gray-200 dark:border-gray-800 backdrop-blur-sm bg-opacity-80 backdrop-filter backdrop-saturate-150 dark:backdrop-blur-md dark:bg-opacity-60 ">
         {/* Left Navigation */}
         <div className="flex gap-4 items-center">
           {/* Navigation mobile */}
@@ -179,9 +191,9 @@ const DetailSurahQuran: React.FC<DetailSurahProps> = ({
         {/* Right Navigation */}
         <div className="flex gap-2 items-center hidden md:flex">
           <button
-            aria-label="Play Audo"
+            aria-label="Play Audio"
             onClick={playAudio}
-            className={`flex items-center p-2 rounded transition bg-gray-200 text-gray-800 hover:bg-gray-300`}
+            className={`px-2 py-2 rounded-md border border-neutral-300 bg-neutral-100 text-neutral-500 text-sm hover:-translate-y-1 transform transition duration-200 hover:shadow-md`}
           >
             {isPlaying ? <Pause size={16} /> : <Play size={16} />}
           </button>
@@ -256,6 +268,8 @@ const DetailSurahQuran: React.FC<DetailSurahProps> = ({
               teksArab={verse.teksArab}
               nomorAyat={verse.nomorAyat}
               teksLatin={verse.teksLatin}
+              namaLatin={data?.namaLatin}
+              nomor={data?.nomor}
               teksIndonesia={verse.teksIndonesia}
               audio={verse.audio}
             />

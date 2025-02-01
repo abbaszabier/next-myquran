@@ -4,6 +4,7 @@ import QueryClientProviderWrapper from "@/api/queryProvider";
 import "./globals.css";
 import Navbot from "@/components/navbot";
 import Navtop from "@/components/navtop";
+import { Toaster } from "@/components/ui/sonner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +35,7 @@ export default function RootLayout({
         <QueryClientProviderWrapper>
           <Navtop />
           {children}
+          <Toaster />
           <Navbot />
         </QueryClientProviderWrapper>
       </body>

@@ -12,11 +12,12 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import { DialogTitle } from "@radix-ui/react-dialog";
+import { useSettingsStore } from "@/store/settings";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
-  const [activeCard, setActiveCard] = useState(1);
   const { data, isLoading } = useGetSurah();
+  const { activeCard, setActiveCard } = useSettingsStore((state) => state);
   const { data: detailSurah, isLoading: detailSurahLoading } =
     useGetDetailSurahByNomor(activeCard);
 
@@ -45,6 +46,7 @@ export default function Home() {
           setActiveCard={setActiveCard}
           data={detailSurah}
           isLoading={detailSurahLoading}
+          activeCard={activeCard}
         />
       </div>
 

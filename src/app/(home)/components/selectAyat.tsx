@@ -40,22 +40,24 @@ export function SelectAyat({ onSelectAyat, data }: SelectAyatProps) {
         <Button
           variant="outline"
           role="combobox"
+          aria-label="Select Ayat"
+          aria-labelledby="select-ayat"
           aria-expanded={open}
-          className="w-full justify-between"
+          className="w-[140px] justify-between"
         >
           {value
             ? verses?.find((verse) => verse.value === value)?.label ??
-              "Select ayat"
-            : "Select ayat"}
-          <ChevronsUpDown className="opacity-50 w-full" />
+              "Cari ayat"
+            : "Cari ayat"}
+          <ChevronsUpDown className="opacity-50 w-[140px]" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-full p-0">
-        <Command className="w-full">
-          <CommandInput placeholder="Search ayat..." />
+      <PopoverContent className="w-[140px] p-0">
+        <Command className="w-[140px]">
+          <CommandInput placeholder="Cari ayat..." />
           <CommandList className="w-full">
             <CommandEmpty>No ayat found.</CommandEmpty>
-            <CommandGroup className="w-full">
+            <CommandGroup className="w-[140px]">
               {verses?.map((verse) => (
                 <CommandItem
                   key={verse.value}

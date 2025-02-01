@@ -19,6 +19,8 @@ export interface Ayat {
   teksArab: string;
   teksIndonesia: string;
   teksLatin: string;
+  namaLatin?: string;
+  nomor?: number;
 }
 
 export interface DetailSurah {

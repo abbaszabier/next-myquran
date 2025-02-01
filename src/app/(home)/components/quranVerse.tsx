@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from "react";
-import { Pause, Play, Save } from "lucide-react";
+import { Check, Pause, Play, Save } from "lucide-react";
 import { Ayat } from "@/api/allSurah";
 import { useSettingsStore } from "@/store/settings";
+import { DropdownCopy } from "./dropdownCopy";
+import { toast } from "sonner";
+import DialogTafsir from "./dialogTafsir";
 
 const QuranVerseCard: React.FC<Ayat> = ({
   teksArab,
@@ -9,19 +12,47 @@ const QuranVerseCard: React.FC<Ayat> = ({
   teksIndonesia,
   audio,
   nomorAyat,
+  namaLatin,
+  nomor,
   id,
 }) => {
-  const [isSaved, setIsSaved] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioPlayer = useRef<HTMLAudioElement | null>(null);
-  const { qori } = useSettingsStore((state) => state);
+  const { qori, terakhirDibaca, setTerakhirDibaca } = useSettingsStore(
+    (state) => state
+  );
 
   const toggleSave = () => {
-    setIsSaved((prev) => {
-      if (!prev) localStorage.setItem("lastReadAyat", id.toString());
-      return !prev;
+    toast("Berhasil!", {
+      description: "Ayat terakhir berhasil disimpan",
+      action: {
+        label: <Check size={16} />,
+        onClick: () => console.log("Undo"),
+      },
+    });
+
+    setTerakhirDibaca({
+      teksArab: teksArab,
+      ayat: nomorAyat?.toString() || "",
+      namaLatin: namaLatin || "",
+      nomor: nomor || 0,
     });
   };
+
+  useEffect(() => {
+    // Periksa apakah teksArab dan ayat di state terakhirDibaca sesuai dengan props
+    if (terakhirDibaca.teksArab === teksArab) {
+      // Tunggu hingga elemen di-render
+      setTimeout(() => {
+        const element = document.getElementById(
+          `ayat-${terakhirDibaca.ayat}-${terakhirDibaca.teksArab}`
+        );
+        if (element) {
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      }, 500); // Delay untuk memastikan elemen sudah di-render
+    }
+  }, [id, nomorAyat, teksArab, terakhirDibaca.ayat, terakhirDibaca.teksArab]);
 
   const playAudio = () => {
     if (audioPlayer.current) {
@@ -69,10 +100,6 @@ const QuranVerseCard: React.FC<Ayat> = ({
 
         audioPlayer.current.addEventListener("ended", () => {
           setIsPlaying(false);
-          const nextAyat = document.getElementById(
-            `ayat-${(nomorAyat ?? 0) + 1}`
-          );
-          if (nextAyat) nextAyat.scrollIntoView({ behavior: "smooth" });
         });
       }
     }
@@ -89,40 +116,63 @@ const QuranVerseCard: React.FC<Ayat> = ({
 
   return (
     <div
-      className={`p-6 bg-white shadow rounded-xl gap-2 border ${
-        isPlaying ? "border-foreground bg-gray-100" : ""
+      className={`p-6 mt-4 space-y-4 bg-background shadow rounded-xl gap-2 border ${
+        isPlaying
+          ? "border-gray-900 dark:border-gray-100"
+          : "dark:border-gray-700"
       }`}
       id={`ayat-${id}`}
     >
       {/* Content Section */}
-      <div className="flex-1">
-        <div className="flex justify-between items-top gap-4 text-3xl font-arabic mb-4">
+      <div className={`flex-1`} id={`${id}-${teksArab}`}>
+        <div className="flex justify-between items-top gap-4 text-2xl md:text-3xl font-arabic mb-4">
           <span className="text-sm">{nomorAyat}</span>
-          <span className="text-right">{teksArab}</span>
+
+          <span className="text-right leading-9 md:leading-10 z-2">
+            {teksArab}{" "}
+            {/* <span className="z-0 text-[#D3B358] dark:text-[#D3B358] relative text-2xl md:text-3xl font-arabic">
+              ۝
+              <span className="absolute text-sm left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                {nomorAyat !== undefined ? toArabicNumber(nomorAyat) : ""}
+              </span>
+            </span> */}
+          </span>
         </div>
 
-        <p className="text-gray-500 mb-2">{teksLatin}</p>
-        <p className="text-gray-800">{teksIndonesia}</p>
+        <p className="text-gray-500 mb-2 text-sm md:text-base dark:text-gray-500">
+          {teksLatin}
+        </p>
+        <p className="text-gray-800 text-sm md:text-base dark:text-gray-400">
+          {teksIndonesia}
+        </p>
       </div>
 
       {/* Button Section */}
       <div className="flex flex-row gap-2 mt-2">
         <button
           aria-label="Play Audio"
+          title="Play Audio"
           onClick={playAudio}
-          className="flex items-center p-2 bg-foreground text-white rounded hover:bg-blue-600 transition"
+          className={`flex items-center px-2 py-2 rounded-md border border-neutral-300 bg-neutral-100 text-neutral-500 text-sm hover:-translate-y-1 transition duration-200 hover:shadow-md`}
         >
           {isPlaying ? <Pause size={16} /> : <Play size={16} />}
         </button>
 
+        <DropdownCopy
+          teksArab={teksArab}
+          teksIndonesia={teksIndonesia}
+          teksLatin={teksLatin}
+        />
+        <DialogTafsir
+          surah={namaLatin || ""}
+          nomorAyat={nomorAyat || 0}
+          noSurah={nomor || 0}
+        />
         <button
           aria-label="Save Ayat"
+          title="Save Ayat"
           onClick={toggleSave}
-          className={`flex items-center p-2 rounded transition ${
-            isSaved
-              ? "bg-green-500 text-white hover:bg-green-600"
-              : "bg-gray-200 text-gray-800 hover:bg-gray-300"
-          }`}
+          className={`flex items-center px-2 py-2 rounded-md border border-neutral-300 bg-neutral-100 text-neutral-500 text-sm hover:-translate-y-1 transition duration-200 hover:shadow-md`}
         >
           <Save size={16} />
         </button>
