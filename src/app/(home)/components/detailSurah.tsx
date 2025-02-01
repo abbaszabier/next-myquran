@@ -34,8 +34,6 @@ const DetailSurahQuran: React.FC<DetailSurahProps> = ({
   const audioPlayer = useRef<HTMLAudioElement | null>(null);
   const router = usePathname();
 
-  console.log(data);
-
   const onChaneQori = (item: string) => {
     setQori(item);
   };

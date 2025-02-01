@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
+import type { Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import QueryClientProviderWrapper from "@/api/queryProvider";
 import "./globals.css";
 import Navbot from "@/components/navbot";
 import Navtop from "@/components/navtop";
 import { Toaster } from "@/components/ui/sonner";
+import Head from "next/head";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,6 +22,11 @@ export const metadata: Metadata = {
   title: "QuranKu",
   description: "A simple Quran app built with Next JS",
   icons: "/logo-quranku.svg",
+  manifest: "/manifest.json",
+};
+
+export const viewport: Viewport = {
+  themeColor: "#000000",
 };
 
 export default function RootLayout({
@@ -29,6 +36,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Head>
+        <link rel="manifest" href="/manifest.json" />
+      </Head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
