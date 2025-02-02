@@ -1,39 +1,136 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Sun, Moon, CloudSun, Sunset, Sunrise } from "lucide-react";
 import { SelectKota } from "../components/selectKota";
 import { motion } from "framer-motion";
 import { HeroHighlight, Highlight } from "@/components/ui/hero-highlight";
 import { useSettingsStore } from "@/store/settings";
-import { useGetShalatBulanan, useGetShalatHarian } from "@/api/shalat";
+import { Shalat, useGetShalatBulanan, useGetShalatHarian } from "@/api/shalat";
 import { DataTable } from "./data-table";
 import { Jadwal, columns } from "./colums";
 import Loading from "./loading";
+import { db } from "@/lib/db";
 
 export default function ShalatPage() {
   const { kota, idKota } = useSettingsStore((state) => state);
   const tahun = new Date().getFullYear();
   const bulan = new Date().getMonth() + 1;
   const tanggal = new Date().getDate();
+  const online = typeof window !== "undefined" ? navigator.onLine : true;
 
-  const { data, isLoading } = useGetShalatHarian(idKota, tahun, bulan, tanggal);
   const { data: jadwalShalatBulanan } = useGetShalatBulanan(
     idKota,
     tahun,
-    bulan
+    bulan,
+    { enabled: online }
   );
+  const [jadwalIbadahBulanan, setJadwalIbadahBulanan] = useState<Shalat>();
 
-  const shalatBulanan: Jadwal[] = Array.isArray(jadwalShalatBulanan?.jadwal)
-    ? jadwalShalatBulanan.jadwal
+  useEffect(() => {
+    if (online) {
+      const saveDataShalatBulanan: Shalat = {
+        id: idKota,
+        lokasi: kota,
+        daerah: jadwalShalatBulanan?.daerah ?? "",
+        jadwal: jadwalShalatBulanan?.jadwal ?? {
+          tanggal: "",
+          imsak: "",
+          subuh: "",
+          terbit: "",
+          dhuha: "",
+          dzuhur: "",
+          ashar: "",
+          maghrib: "",
+          isya: "",
+          date: "",
+        },
+      };
+
+      db.jadwalShalatBulanan.bulkPut([saveDataShalatBulanan]).then(() => {
+        console.log("Data shalat bulanan berhasil disimpan");
+      });
+
+      setJadwalIbadahBulanan(saveDataShalatBulanan);
+    }
+  }, [
+    idKota,
+    jadwalShalatBulanan?.daerah,
+    jadwalShalatBulanan?.jadwal,
+    kota,
+    online,
+  ]);
+
+  useEffect(() => {
+    if (!online) {
+      db.jadwalShalatBulanan
+        .where("id")
+        .equals(idKota)
+        .first()
+        .then((data) => {
+          setJadwalIbadahBulanan(data);
+        });
+    }
+  }, [idKota, online]);
+
+  const shalatBulanan: Jadwal[] = Array.isArray(jadwalIbadahBulanan?.jadwal)
+    ? jadwalIbadahBulanan.jadwal
     : [];
 
-  if (isLoading) {
-    return <Loading text="Memuat data shalat..." color="text-black" />;
-  }
+  const { data, isLoading } = useGetShalatHarian(
+    idKota,
+    tahun,
+    bulan,
+    tanggal,
+    {
+      enabled: online,
+    }
+  );
 
-  const jadwalShalatHarian = Object.entries(data?.jadwal ?? [])
+  const [jadwalIbadahHarian, setJadwalIbadahHarian] = useState<Shalat>();
+
+  useEffect(() => {
+    if (online) {
+      const saveDataShalatHarian: Shalat = {
+        id: idKota,
+        lokasi: kota,
+        daerah: data?.daerah ?? "",
+        jadwal: data?.jadwal ?? {
+          tanggal: "",
+          imsak: "",
+          subuh: "",
+          terbit: "",
+          dhuha: "",
+          dzuhur: "",
+          ashar: "",
+          maghrib: "",
+          isya: "",
+          date: "",
+        },
+      };
+
+      db.jadwalShalatHarian.bulkPut([saveDataShalatHarian]).then(() => {
+        console.log("Data shalat harian berhasil disimpan");
+      });
+
+      setJadwalIbadahHarian(saveDataShalatHarian);
+    }
+  }, [data, idKota, kota, online]);
+
+  useEffect(() => {
+    if (!online) {
+      db.jadwalShalatHarian
+        .where("id")
+        .equals(idKota)
+        .first()
+        .then((data) => {
+          setJadwalIbadahHarian(data);
+        });
+    }
+  }, [idKota, online]);
+
+  const jadwalShalatHarian = Object.entries(jadwalIbadahHarian?.jadwal ?? [])
     .filter(
       ([key]) =>
         key === "imsak" ||
@@ -48,6 +145,12 @@ export default function ShalatPage() {
     .map(([key, value]) => ({
       [key]: value,
     }));
+
+  console.log(jadwalShalatHarian);
+
+  if (online && isLoading) {
+    return <Loading text="Memuat data shalat..." color="text-black" />;
+  }
 
   const filterIcon = (name: string) => {
     switch (name) {
