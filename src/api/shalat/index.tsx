@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import axiosShalat from "../axios/shalat";
 
-interface Jadwal {
+export interface Jadwal {
   tanggal: string;
   imsak: string;
   subuh: string;
@@ -14,7 +14,7 @@ interface Jadwal {
   date: string;
 }
 
-interface Shalat {
+export interface Shalat {
   id: number;
   lokasi: string;
   daerah: string;
@@ -29,7 +29,8 @@ interface Kota {
 export const useGetShalatBulanan = (
   idKota: number,
   tahun: number,
-  bulan: number
+  bulan: number,
+  options: { enabled: boolean }
 ) => {
   return useQuery<Shalat>({
     queryKey: ["shalatBulanan", idKota, tahun, bulan],
@@ -40,6 +41,7 @@ export const useGetShalatBulanan = (
 
       return response.data.data;
     },
+    ...options,
   });
 };
 
@@ -47,7 +49,8 @@ export const useGetShalatHarian = (
   idKota: number,
   tahun: number,
   bulan: number,
-  tanggal: number
+  tanggal: number,
+  options: { enabled: boolean }
 ) => {
   return useQuery<Shalat>({
     queryKey: ["shalatHarian", idKota, tahun, bulan, tanggal],
@@ -58,10 +61,11 @@ export const useGetShalatHarian = (
 
       return response.data.data;
     },
+    ...options,
   });
 };
 
-export const useGetKota = () => {
+export const useGetKota = (options: { enabled: boolean }) => {
   return useQuery<Kota[]>({
     queryKey: ["kota"],
     queryFn: async () => {
@@ -69,5 +73,6 @@ export const useGetKota = () => {
 
       return response.data.data;
     },
+    ...options,
   });
 };
