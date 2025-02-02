@@ -12,15 +12,15 @@ const Offline = () => {
 
   return (
     <div className="flex flex-col items-center w-full justify-center min-h-[calc(100vh-8rem)] md:min-h-[calc(100vh-4rem)] bg-background">
-      <div className="flex flex-col items-center text-center justify-center w-full max-w-lg">
+      <div className="flex flex-col items-center text-center justify-center w-full max-w-md px-4">
         <WifiOff className="w-32 h-32 mb-4" />
-        <h1 className="text-4xl font-bold text-gray-800 dark:text-gray-200">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-800 dark:text-gray-200">
           Anda Sedang Offline
         </h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
-          Upss, data surah/jadwal shalat yang dituju belum tersimpan di cache.
-          Silakan kembali online terlebih dahulu untuk meng-cache data yang
-          dituju.
+        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+          Upsss, data yang Anda cari sepertinya belum tersimpan di cache.
+          Silakan kembali online terlebih dahulu untuk menyimpan data tersebut
+          ke dalam cache.
         </p>
       </div>
       <Link href="/" className="mt-8">

@@ -18,6 +18,21 @@ const withPWAConfig = withPWA({
           },
         },
       },
+      {
+        urlPattern:
+          /^https:\/\/equran\.nos\.wjv-1\.neo\.id\/audio-full\/.*\.mp3$/,
+        handler: "CacheFirst",
+        options: {
+          cacheName: "audioCache",
+          expiration: {
+            maxEntries: 50,
+            maxAgeSeconds: 60 * 60 * 24 * 30,
+          },
+          cacheableResponse: {
+            statuses: [200],
+          },
+        },
+      },
     ],
   },
   fallbacks: {

@@ -3,7 +3,6 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-// import FloatingButton from "./ui/floating-button";
 import QuranIcon from "./icons/quranIcon";
 import ShalatIcon from "./icons/shalatIcon";
 
@@ -12,8 +11,11 @@ export default function Navbot() {
 
   return (
     <>
-      {/* <FloatingButton router={router} /> */}
-      <div className="md:hidden w-full fixed bottom-0 z-50 flex justify-between h-[55px] bg-background border-t border-gray-100 dark:border-gray-800 text-black dark:text-white shadow-[rgba(0,0,15,0.1)_10px_10px_10px_10px]">
+      <div
+        className={`${
+          router === "/offline" ? "hidden" : ""
+        } md:hidden w-full fixed bottom-0 z-50 flex justify-between h-[55px] bg-background border-t border-gray-100 dark:border-gray-800 text-black dark:text-white shadow-[rgba(0,0,15,0.1)_10px_10px_10px_10px]`}
+      >
         <Link
           href="/"
           className={`flex-1 flex justify-center items-center text-black dark:text-white`}

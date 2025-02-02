@@ -59,7 +59,7 @@ const QuranVerseCard: React.FC<Ayat> = ({
     if (!online) {
       toast("Gagal!", {
         description:
-          "Tidak dapat memutar audio dalam mode offline, silakan coba lagi saat online",
+          "Saat ini Anda sedang offline dan audio belum tersedia di cache, silakan coba lagi saat online",
       });
       return;
     }
