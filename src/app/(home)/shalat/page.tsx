@@ -12,6 +12,7 @@ import { DataTable } from "./data-table";
 import { Jadwal, columns } from "./colums";
 import Loading from "./loading";
 import { db } from "@/lib/db";
+// import { useLiveQuery } from "dexie-react-hooks";
 
 export default function ShalatPage() {
   const { kota, idKota } = useSettingsStore((state) => state);
@@ -25,7 +26,7 @@ export default function ShalatPage() {
     idKota,
     tahun,
     bulan,
-    { enabled: online }
+    online ? { enabled: online } : { enabled: false }
   );
   const [jadwalIbadahBulanan, setJadwalIbadahBulanan] = useState<Shalat>();
 
@@ -85,9 +86,7 @@ export default function ShalatPage() {
     tahun,
     bulan,
     tanggal,
-    {
-      enabled: online,
-    }
+    online ? { enabled: online } : { enabled: false }
   );
 
   const [jadwalIbadahHarian, setJadwalIbadahHarian] = useState<Shalat>();
