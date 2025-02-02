@@ -35,6 +35,8 @@ export function SelectKota() {
         <Button
           variant="outline"
           role="combobox"
+          aria-label="Select Kota"
+          aria-labelledby="select-kota"
           aria-expanded={open}
           className="w-[300px] justify-between"
         >
