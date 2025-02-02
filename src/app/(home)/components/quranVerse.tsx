@@ -21,6 +21,7 @@ const QuranVerseCard: React.FC<Ayat> = ({
   const { qori, terakhirDibaca, setTerakhirDibaca } = useSettingsStore(
     (state) => state
   );
+  const online = typeof window !== "undefined" ? navigator.onLine : true;
 
   const toggleSave = () => {
     toast("Berhasil!", {
@@ -55,6 +56,13 @@ const QuranVerseCard: React.FC<Ayat> = ({
   }, [id, nomorAyat, teksArab, terakhirDibaca.ayat, terakhirDibaca.teksArab]);
 
   const playAudio = () => {
+    if (!online) {
+      toast("Gagal!", {
+        description:
+          "Tidak dapat memutar audio dalam mode offline, silakan coba lagi saat online",
+      });
+      return;
+    }
     if (audioPlayer.current) {
       // Jika sumber audio berubah
       if (audioPlayer.current.src !== audio[qori]) {

@@ -20,6 +20,7 @@ import { DialogTitle } from "@radix-ui/react-dialog";
 import { useSettingsStore } from "@/store/settings";
 import { db } from "@/lib/db";
 import { useLiveQuery } from "dexie-react-hooks";
+import { redirect } from "next/navigation";
 
 export default function Home() {
   const [open, setOpen] = useState(false);
@@ -87,6 +88,11 @@ export default function Home() {
     document.addEventListener("keydown", down);
     return () => document.removeEventListener("keydown", down);
   }, []);
+
+  // jika offline dan data belum tersedia di IndexedDB redirect ke halaman offline
+  if (!online && !handleUndefinedIsExistData) {
+    redirect("/offline");
+  }
 
   return (
     <div className="min-h-screen flex flex-col">

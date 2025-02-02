@@ -12,7 +12,8 @@ import { DataTable } from "./data-table";
 import { Jadwal, columns } from "./colums";
 import Loading from "./loading";
 import { db } from "@/lib/db";
-// import { useLiveQuery } from "dexie-react-hooks";
+import { redirect } from "next/navigation";
+import { useLiveQuery } from "dexie-react-hooks";
 
 export default function ShalatPage() {
   const { kota, idKota } = useSettingsStore((state) => state);
@@ -146,6 +147,21 @@ export default function ShalatPage() {
     .map(([key, value]) => ({
       [key]: value,
     }));
+
+  const jadwalIbadahHarianFromDb = useLiveQuery(
+    () => db.jadwalShalatHarian.toArray(),
+    []
+  );
+
+  const check = jadwalIbadahHarianFromDb?.some((chek) => chek.lokasi === kota);
+
+  const handleUndefinedJadwalIbadahHarianFromDb =
+    typeof check === "undefined" ? true : check;
+  console.log(jadwalIbadahHarianFromDb);
+
+  if (!online && !handleUndefinedJadwalIbadahHarianFromDb) {
+    redirect("/offline");
+  }
 
   if (online && isLoading) {
     return <Loading text="Memuat data shalat..." color="text-black" />;

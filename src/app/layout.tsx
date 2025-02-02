@@ -20,7 +20,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "QuranKu",
   description: "A simple Quran app built with Next JS",
-  icons: "/logo-quranku.svg",
+  icons: "/logo-quranku192x192.webp",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
