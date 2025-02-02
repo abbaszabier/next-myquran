@@ -8,6 +8,7 @@ const withPWAConfig = withPWA({
   workboxOptions: {
     skipWaiting: true,
     clientsClaim: true,
+    navigateFallback: "/offline",
     runtimeCaching: [
       {
         urlPattern: /^https?.*/,
@@ -17,12 +18,10 @@ const withPWAConfig = withPWA({
           expiration: {
             maxEntries: 20000,
           },
+          networkTimeoutSeconds: 5,
         },
       },
     ],
-  },
-  fallbacks: {
-    document: "/offline",
   },
 });
 
