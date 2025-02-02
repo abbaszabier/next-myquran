@@ -10,7 +10,7 @@ interface LoadingProps {
 
 const Loading: React.FC<LoadingProps> = ({
   text = "Memuat data shalat...",
-  color = "text-blue-500",
+  color,
 }) => {
   return (
     <div className="flex flex-col bg-background min-h-[calc(100vh-12rem)] md:min-h-[calc(100vh-10rem)] justify-center items-center gap-4">

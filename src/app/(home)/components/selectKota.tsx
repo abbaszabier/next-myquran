@@ -25,7 +25,11 @@ import { useSettingsStore } from "@/store/settings";
 export function SelectKota() {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
-  const { data: kota } = useGetKota();
+  const online = typeof window !== "undefined" ? navigator.onLine : true;
+
+  const { data: kota } = useGetKota({
+    enabled: online,
+  });
 
   const { setKota, setIdKota } = useSettingsStore((state) => state);
 

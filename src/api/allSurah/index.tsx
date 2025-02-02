@@ -51,13 +51,14 @@ export interface DetailSurah {
   tempatTurun: string;
 }
 
-export const useGetSurah = () => {
+export const useGetSurah = (options: { enabled: boolean }) => {
   return useQuery<Surah[]>({
     queryKey: ["surah"],
     queryFn: async () => {
       const { data } = await axiosInstance.get("/api/v2/surat");
       return data.data;
     },
+    ...options,
   });
 };
 
