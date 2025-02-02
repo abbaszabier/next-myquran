@@ -22,6 +22,8 @@ import { DetailSurah, useGetSurah } from "@/api/allSurah";
 import { Input } from "@/components/ui/input";
 import { toArabicNumber } from "@/lib/utils";
 import { Search } from "lucide-react";
+import { useLiveQuery } from "dexie-react-hooks";
+import { db } from "@/lib/db";
 
 interface FloatingButtonProps {
   router: string;
@@ -36,9 +38,11 @@ const FloatingButton = ({
   activeCard,
 }: FloatingButtonProps) => {
   const [searchQuery, setSearchQuery] = useState("");
+  const online = typeof window !== "undefined" ? navigator.onLine : true;
+  const listSurah = useLiveQuery(() => db.listSurah.toArray(), []);
 
-  const { data } = useGetSurah();
-  const filteredData = (data ?? []).filter((surah) =>
+  const { data } = useGetSurah({ enabled: online });
+  const filteredData = (online ? data ?? [] : listSurah ?? []).filter((surah) =>
     surah.namaLatin.toLowerCase().includes(searchQuery.toLowerCase())
   );
   const handleCardClick = (nomor: number) => {
