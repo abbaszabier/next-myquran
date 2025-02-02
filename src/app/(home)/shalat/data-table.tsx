@@ -74,7 +74,7 @@ export function DataTable<TData extends Jadwal, TValue>({
                         year: "numeric",
                       })
                     )
-                      ? "bg-green-100 dark:bg-green-800"
+                      ? "bg-gradient-to-r from-indigo-300 to-purple-300 dark:from-indigo-500 dark:to-purple-500"
                       : "odd:bg-gray-100 even:bg-white dark:odd:bg-gray-800 dark:even:bg-gray-900"
                   }
                   `}
