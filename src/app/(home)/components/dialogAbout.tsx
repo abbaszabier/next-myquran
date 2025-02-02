@@ -21,6 +21,7 @@ function DialogAbout() {
             <Image
               src="/logo-quranku.svg"
               width={0}
+              priority
               height={0}
               alt="QuranKu"
               className="text-center h-[60px] w-[60px]"

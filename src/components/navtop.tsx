@@ -33,6 +33,7 @@ export default function Navtop() {
       <div className="flex items-center space-x-2">
         <Image
           src="/logo-quranku.svg"
+          priority
           className="h-[40px] w-[40px]"
           width={0}
           height={0}

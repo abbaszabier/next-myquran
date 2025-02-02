@@ -16,6 +16,7 @@ const Loading: React.FC<LoadingProps> = ({
     <div className="flex flex-col bg-background min-h-[calc(100vh-12rem)] md:min-h-[calc(100vh-10rem)] justify-center items-center gap-4">
       <Image
         src="/logo-quranku.svg"
+        priority
         className="w-[60px] h-[60px] md:w-[80px] md:h-[80px] animate-text-pulse"
         width={0}
         height={0}
