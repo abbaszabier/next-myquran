@@ -20,6 +20,7 @@ export default function ShalatPage() {
   const tanggal = new Date().getDate();
   const online = typeof window !== "undefined" ? navigator.onLine : true;
 
+  // Shalat Bulanan
   const { data: jadwalShalatBulanan } = useGetShalatBulanan(
     idKota,
     tahun,
@@ -78,6 +79,7 @@ export default function ShalatPage() {
     ? jadwalIbadahBulanan.jadwal
     : [];
 
+  // Shalat Harian
   const { data, isLoading } = useGetShalatHarian(
     idKota,
     tahun,
@@ -145,8 +147,6 @@ export default function ShalatPage() {
     .map(([key, value]) => ({
       [key]: value,
     }));
-
-  console.log(jadwalShalatHarian);
 
   if (online && isLoading) {
     return <Loading text="Memuat data shalat..." color="text-black" />;
