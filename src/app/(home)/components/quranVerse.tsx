@@ -116,11 +116,19 @@ const QuranVerseCard: React.FC<Ayat> = ({
 
   return (
     <div
-      className={`p-6 mt-4 space-y-4 bg-background shadow rounded-xl gap-2 border ${
-        isPlaying
-          ? "border-gray-900 dark:border-gray-100"
-          : "dark:border-gray-700"
-      }`}
+      className={`p-6 mt-4 space-y-4 bg-background shadow rounded-xl gap-2 border
+        ${
+          terakhirDibaca.namaLatin &&
+          terakhirDibaca.nomor === nomor &&
+          terakhirDibaca.teksArab === teksArab
+            ? "bg-[#F7F7F7] dark:bg-[#1E1E1E] border-[#D3B358] dark:border-[#D3B358]"
+            : ""
+        }
+        ${
+          isPlaying
+            ? "border-gray-900 dark:border-gray-100"
+            : "dark:border-gray-700"
+        }`}
       id={`ayat-${id}`}
     >
       {/* Content Section */}
