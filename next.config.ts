@@ -21,9 +21,9 @@ const withPWAConfig = withPWA({
       },
     ],
   },
-  // fallbacks: {
-  //   document: "/~offline/page.tsx",
-  // },
+  fallbacks: {
+    document: "/offline",
+  },
 });
 
 module.exports = withPWAConfig({});
