@@ -54,7 +54,7 @@ export function SelectKota() {
         <Command>
           <CommandInput placeholder="Cari kota..." className="h-9" />
           <CommandList>
-            <CommandEmpty>No framework found.</CommandEmpty>
+            <CommandEmpty>Kota tidak ditemukan</CommandEmpty>
             <CommandGroup>
               {kota?.map((framework) => (
                 <CommandItem

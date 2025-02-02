@@ -208,7 +208,7 @@ export default function ShalatPage() {
               duration: 0.5,
               ease: [0.4, 0.0, 0.2, 1],
             }}
-            className="text-4xl md:px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto py-8 mb-2"
+            className="text-3xl md:px-4 md:text-4xl lg:text-5xl font-bold text-neutral-700 dark:text-white max-w-4xl leading-relaxed lg:leading-snug text-center mx-auto py-6 mb-2"
           >
             Jadwal shalat daerah <br />
             <Highlight className="text-black dark:text-white">
