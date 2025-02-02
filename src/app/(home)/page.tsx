@@ -30,25 +30,40 @@ export default function Home() {
   const { data, isLoading } = useGetSurah(
     online ? { enabled: online } : { enabled: false }
   );
+  const listSurahFromDb = useLiveQuery(() => db.listSurah.toArray(), []);
 
   useEffect(() => {
-    if (online) {
+    if (online && data) {
       const saveDataListSurah: Surah[] = data ?? [];
 
-      db.listSurah.bulkPut(saveDataListSurah).then(() => {
-        console.log("Data surah berhasil disimpan");
+      // Cek apakah data sudah ada di IndexedDB
+      db.listSurah.count().then((count) => {
+        if (count === 0) {
+          // Jika belum ada data, simpan data baru
+          db.listSurah.bulkPut(saveDataListSurah).then(() => {
+            console.log("Data surah berhasil disimpan");
+          });
+        } else {
+          console.log("Data surah sudah ada, tidak perlu disimpan lagi");
+        }
       });
     }
   }, [data, online]);
-
-  const listSurah = useLiveQuery(() => db.listSurah.toArray(), []);
 
   // Detail Surah
   const { data: detailSurah, isLoading: detailSurahLoading } =
     useGetDetailSurahByNomor(activeCard);
 
+  const detailSurahFromDb = useLiveQuery(() => db.detailSurah.toArray(), []);
+  const isExistData = detailSurahFromDb?.some(
+    (surah) => surah.nomor === activeCard
+  );
+
+  const handleUndefinedIsExistData =
+    typeof isExistData === "undefined" ? true : isExistData;
+
   useEffect(() => {
-    if (online && activeCard) {
+    if (online && activeCard && !handleUndefinedIsExistData) {
       if (detailSurah) {
         const saveDataDetailSurah: DetailSurah = detailSurah;
         db.detailSurah.bulkPut([saveDataDetailSurah]).then(() => {
@@ -56,9 +71,7 @@ export default function Home() {
         });
       }
     }
-  }, [detailSurah, online, activeCard]);
-
-  const detailSurahFromDb = useLiveQuery(() => db.detailSurah.toArray(), []);
+  }, [detailSurah, online, activeCard, handleUndefinedIsExistData]);
 
   const detailSurahFilter = detailSurahFromDb?.find(
     (surah) => surah.nomor === activeCard
@@ -79,7 +92,7 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       <div className="grid grid-cols-1 lg:grid-cols-[22%_78%] flex-grow">
         <ListSurah
-          data={online ? data : listSurah}
+          data={online ? data : listSurahFromDb}
           setActiveCard={setActiveCard}
           activeCard={activeCard}
           isLoading={isLoading}

@@ -11,12 +11,11 @@ export const db = new Dexie("QuranKu") as Dexie & {
   tafsir: EntityTable<Tafsir, "nomor">;
 };
 
-db.version(2).stores({
+db.version(3).stores({
   jadwalShalatHarian: "++id, lokasi, daerah, jadwal",
   jadwalShalatBulanan: "++id, lokasi, daerah, jadwal",
   listSurah:
     "++id, nomor, nama, namaLatin, jumlahAyat, tempatTurun, arti, deskripsi, audioFull",
   detailSurah:
     "++id, arti, audioFull, ayat, deskripsi, jumlahAyat, nama, namaLatin, nomor, suratSebelumnya, suratSelanjutnya, tempatTurun",
-  tafsir: "++id, nomor, tafsir",
 });
