@@ -144,7 +144,7 @@ const QuranVerseCard: React.FC<Ayat> = ({
         <div className="flex justify-between items-top gap-4 text-2xl md:text-3xl font-arabic mb-4">
           <span className="text-sm">{nomorAyat}</span>
 
-          <span className="text-right leading-9 md:leading-10 z-2">
+          <p className="text-right leading-9 md:leading-10 z-2">
             {teksArab}{" "}
             {/* <span className="z-0 text-[#D3B358] dark:text-[#D3B358] relative text-2xl md:text-3xl font-arabic">
               ۝
@@ -152,7 +152,7 @@ const QuranVerseCard: React.FC<Ayat> = ({
                 {nomorAyat !== undefined ? toArabicNumber(nomorAyat) : ""}
               </span>
             </span> */}
-          </span>
+          </p>
         </div>
 
         <p className="text-gray-500 mb-2 text-sm md:text-base dark:text-gray-500">
