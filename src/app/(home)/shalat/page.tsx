@@ -157,7 +157,6 @@ export default function ShalatPage() {
 
   const handleUndefinedJadwalIbadahHarianFromDb =
     typeof check === "undefined" ? true : check;
-  console.log(jadwalIbadahHarianFromDb);
 
   if (!online && !handleUndefinedJadwalIbadahHarianFromDb) {
     redirect("/offline");

@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-page-custom-font */
 import type { Metadata } from "next";
 import type { Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
@@ -7,6 +6,7 @@ import "./globals.css";
 import Navbot from "@/components/navbot";
 import Navtop from "@/components/navtop";
 import { Toaster } from "@/components/ui/sonner";
+import InstallPrompt from "@/components/installPrompt";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -63,17 +63,13 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <link rel="manifest" href="/manifest.json" />
-        <link
-          rel="preload"
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
-          as="style"
-        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <QueryClientProviderWrapper>
           <Navtop />
+          <InstallPrompt />
           {children}
           <Toaster />
           <Navbot />

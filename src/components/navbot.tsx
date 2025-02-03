@@ -14,7 +14,7 @@ export default function Navbot() {
       <div
         className={`${
           router === "/offline" ? "hidden" : ""
-        } md:hidden w-full fixed bottom-0 z-50 flex justify-between h-[55px] bg-background border-t border-gray-100 dark:border-gray-800 text-black dark:text-white shadow-[rgba(0,0,15,0.1)_10px_10px_10px_10px]`}
+        } md:hidden w-full fixed bottom-0 z-49 flex justify-between h-[55px] bg-background border-t border-gray-100 dark:border-gray-800 text-black dark:text-white shadow-[rgba(0,0,15,0.1)_10px_10px_10px_10px]`}
       >
         <Link
           href="/"

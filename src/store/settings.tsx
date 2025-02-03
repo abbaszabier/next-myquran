@@ -23,6 +23,8 @@ interface SettingsState {
   }) => void;
   activeCard: number;
   setActiveCard: (activeCard: number) => void;
+  installed: boolean;
+  setInstalled: (installed: boolean) => void;
 }
 
 export const useSettingsStore = create<SettingsState>()(
@@ -53,6 +55,10 @@ export const useSettingsStore = create<SettingsState>()(
         activeCard: 1,
         setActiveCard(activeCard) {
           set({ activeCard });
+        },
+        installed: false,
+        setInstalled(installed) {
+          set({ installed });
         },
       }),
       {
