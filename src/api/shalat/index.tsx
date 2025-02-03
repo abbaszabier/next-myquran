@@ -21,7 +21,7 @@ export interface Shalat {
   jadwal: Jadwal;
 }
 
-interface Kota {
+export interface Kota {
   id: number;
   lokasi: string;
 }

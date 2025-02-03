@@ -19,8 +19,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { useGetKota } from "@/api/shalat";
+import { Kota, useGetKota } from "@/api/shalat";
 import { useSettingsStore } from "@/store/settings";
+import { useEffect } from "react";
+import { db } from "@/lib/db";
+import { useLiveQuery } from "dexie-react-hooks";
 
 export function SelectKota() {
   const [open, setOpen] = React.useState(false);
@@ -30,6 +33,28 @@ export function SelectKota() {
   const { data: kota } = useGetKota({
     enabled: online,
   });
+
+  const listKotaFromDb = useLiveQuery(() => db.kota.toArray(), []);
+
+  useEffect(() => {
+    if (online && kota) {
+      const saveDataListKota: Kota[] = kota ?? [];
+
+      // Cek apakah data sudah ada di IndexedDB
+      db.kota.count().then((count) => {
+        if (count === 0) {
+          // Jika belum ada data, simpan data baru
+          db.kota.bulkPut(saveDataListKota).then(() => {
+            console.log("Data kota berhasil disimpan");
+          });
+        } else {
+          console.log("Data kota sudah ada, tidak perlu disimpan lagi");
+        }
+      });
+    }
+  }, [kota, online]);
+
+  const filterData = online ? kota : listKotaFromDb;
 
   const { setKota, setIdKota } = useSettingsStore((state) => state);
 
@@ -45,7 +70,8 @@ export function SelectKota() {
           className="w-[300px] justify-between"
         >
           {value
-            ? kota?.find((framework) => framework.lokasi === value)?.lokasi
+            ? filterData?.find((framework) => framework.lokasi === value)
+                ?.lokasi
             : "Cari kota..."}
           <ChevronsUpDown className="opacity-50" />
         </Button>
@@ -56,7 +82,7 @@ export function SelectKota() {
           <CommandList>
             <CommandEmpty>Kota tidak ditemukan</CommandEmpty>
             <CommandGroup>
-              {kota?.map((framework) => (
+              {filterData?.map((framework) => (
                 <CommandItem
                   key={framework.id}
                   value={framework.lokasi}
