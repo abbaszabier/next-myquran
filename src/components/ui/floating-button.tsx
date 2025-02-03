@@ -57,7 +57,12 @@ const FloatingButton = ({
     >
       <Drawer>
         <DrawerTrigger asChild>
-          <button className="bg-primary text-primary-foreground rounded-full p-3 shadow-lg text-dark dark:text-dark">
+          <button
+            aria-label="Daftar Surah"
+            title="Daftar Surah"
+            aria-labelledby="drawer-title"
+            className="bg-primary text-primary-foreground rounded-full p-3 shadow-lg text-dark dark:text-dark"
+          >
             <ListSurahIcon
               className={`w-[28px] h-[28px] text-dark dark:text-dark`}
             />

@@ -64,7 +64,7 @@ export default function InstallPrompt() {
     !installed &&
     installPrompt !== null && (
       <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-        <div className="bg-white text-center p-4 md:rounded-2xl rounded-xl shadow-lg w-80 dark:bg-black dark:border dark:border-gray-800">
+        <div className="bg-white text-center p-4 md:rounded-2xl rounded-xl shadow-lg w-80 dark:bg-black dark:border dark:border-gray-700">
           <Image
             src="/logo-quranku.svg"
             className="w-[48px] h-[48px] text-center mx-auto"
@@ -92,8 +92,7 @@ export default function InstallPrompt() {
               aria-label="tutup"
               aria-labelledby="tutup"
               onClick={() => handleClose()}
-              className="w-full px-4 py-2 rounded-md border border-neutral-300 bg-red-500 text-background
-              dark:text-white
+              className="w-full px-4 py-2 rounded-md border border-neutral-300 bg-red-700 text-background dark:text-white
               text-sm hover:-translate-y-1 transform transition duration-200 hover:shadow-md"
             >
               Tutup
