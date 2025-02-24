@@ -2,7 +2,7 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Demo App
 
-next-myquran.vercel.app
+[next-myquran.vercel.app](https://next-myquran.vercel.app/) 
 
 ## Getting Started
 
